@@ -6,7 +6,7 @@ dotenv.config({ path: ".env.local" });
 
 const instance = new web3.eth.Contract(
   JSON.parse(CampaignFactory.interface),
-  process.env.FACTORY_ADDRESS
+  process.env.CONTRACT_ADDRESS
 );
 
 export default instance;
