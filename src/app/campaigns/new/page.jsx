@@ -18,21 +18,21 @@ import factory from "@/factory";
 import web3 from "@/web3";
 
 const formSchema = z.object({
-  contribution: z.number().min(100),
+  minimumContribution: z.string().min(1),
 });
 
 const CreateNewCampaign = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      contribution: 100,
+      minimumContribution: "100",
     },
   });
 
   const onSubmit = async (values) => {
     try {
       const accounts = await web3.eth.getAccounts();
-      await factory.methods.createCampaign(values.contribution).send({
+      await factory.methods.createCampaign(values.minimumContribution).send({
         from: accounts[0],
       });
     } catch (error) {
@@ -47,19 +47,30 @@ const CreateNewCampaign = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="contribution"
+            name="minimumContribution"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contribution</FormLabel>
-                <FormControl>
-                  <Input placeholder="100" {...field} />
-                </FormControl>
+                <FormLabel>Minimum Contribution</FormLabel>
+                <div className="flex items-center w-1/2">
+                  <FormControl>
+                    <Input
+                      placeholder="100"
+                      {...field}
+                      className="rounded-r-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-blue-200 w-1/2"
+                    />
+                  </FormControl>
+                  <span className="h-10 flex items-center bg-gray-200 px-2 rounded-l-none border-y border-r rounded-r-md">
+                    wei
+                  </span>
+                </div>
                 <FormDescription>This is your contribution.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Create!</Button>
+          <Button type="submit" className="bg-blue-600 text-white font-medium">
+            Create!
+          </Button>
         </form>
       </Form>
     </main>
