@@ -20,12 +20,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useReducer } from "react";
 import Message from "@/components/Message";
 import { Loader2 } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   minimumContribution: z.string().min(1),
 });
 
 const CreateNewCampaign = () => {
+  const { push } = useRouter();
   const reducer = (state, action) => ({ ...state, ...action });
   const initialState = {
     buttonText: "Create!",
@@ -56,6 +57,7 @@ const CreateNewCampaign = () => {
     },
     onSuccess: ({ message }) => {
       dispatch({ buttonText: "Create!", success: message });
+      push("/");
     },
     onError: ({ message }) => {
       dispatch({ error: message, buttonText: "Try again!" });
