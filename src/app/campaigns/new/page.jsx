@@ -16,12 +16,28 @@ import {
 import { Input } from "@/components/ui/input";
 import factory from "@/factory";
 import web3 from "@/web3";
+import { useMutation } from "@tanstack/react-query";
+import { useReducer } from "react";
+import Message from "@/components/Message";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   minimumContribution: z.string().min(1),
 });
 
 const CreateNewCampaign = () => {
+  const reducer = (state, action) => ({ ...state, ...action });
+  const initialState = {
+    buttonText: "Create!",
+    success: null,
+    error: null,
+  };
+
+  const [{ buttonText, error, success }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,15 +45,25 @@ const CreateNewCampaign = () => {
     },
   });
 
-  const onSubmit = async (values) => {
-    try {
+  // Define the mutation
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data) => {
+      dispatch({ buttonText: "Creating...", error: null, success: null });
       const accounts = await web3.eth.getAccounts();
-      await factory.methods.createCampaign(values.minimumContribution).send({
+      return factory.methods.createCampaign(data.minimumContribution).send({
         from: accounts[0],
       });
-    } catch (error) {
-      console.error(error);
-    }
+    },
+    onSuccess: ({ message }) => {
+      dispatch({ buttonText: "Create!", success: message });
+    },
+    onError: ({ message }) => {
+      dispatch({ error: message, buttonText: "Try again!" });
+    },
+  });
+
+  const onSubmit = (values) => {
+    mutate(values);
   };
 
   return (
@@ -69,8 +95,11 @@ const CreateNewCampaign = () => {
             )}
           />
           <Button type="submit" className="bg-blue-600 text-white font-medium">
-            Create!
+            {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+            {buttonText}
           </Button>
+          {success && <Message message={success} type="success" />}
+          {error && <Message message={error} type="error" />}
         </form>
       </Form>
     </main>
