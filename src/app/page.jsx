@@ -1,8 +1,9 @@
-import factory from "../../ethereum/factory";
+import factory from "@/factory";
 import Campaigns from "@/components/Campaigns";
-import { Button } from "@/components/ui/button";
 import { LuPlusCircle } from "react-icons/lu";
 import { Suspense } from "react";
+import Link from "next/link";
+
 const Home = async () => {
   const campaigns = await factory.methods.getDeployedCampaigns().call();
 
@@ -14,10 +15,13 @@ const Home = async () => {
             <Campaigns key={campaign} campaign={campaign} />
           ))}
         </Suspense>
-        <Button className="flex gap-x-2 items-center justify-center">
+        <Link
+          href="/campaigns/new"
+          className="flex gap-x-2 items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-lg"
+        >
           <LuPlusCircle size={20} />
           <span className="text-sm">Create Campaign</span>
-        </Button>
+        </Link>
       </div>
     </div>
   );

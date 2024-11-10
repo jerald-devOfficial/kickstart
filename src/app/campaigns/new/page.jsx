@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import factory from "@/factory";
+import web3 from "@/web3";
 
 const formSchema = z.object({
   contribution: z.number().min(100),
@@ -28,14 +30,21 @@ const CreateNewCampaign = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
+    try {
+      const accounts = await web3.eth.getAccounts();
+      await factory.methods.createCampaign(values.contribution).send({
+        from: accounts[0],
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <main className="flex flex-col gap-y-4">
       <h1 className="text-2xl font-bold">Create a Campaign</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
             name="contribution"
