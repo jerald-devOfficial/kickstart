@@ -1,6 +1,11 @@
-const path = require("path");
-const solc = require("solc");
-const fs = require("fs-extra");
+import path from "path";
+import { fileURLToPath } from "url";
+import solc from "solc";
+import fs from "fs-extra";
+
+// Convert import.meta.url to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const buildPath = path.resolve(__dirname, "build");
 fs.removeSync(buildPath);
