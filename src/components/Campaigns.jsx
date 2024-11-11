@@ -4,7 +4,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 const Campaigns = ({ campaign }) => {
   return (
-    <Card className="w-fit p-4 flex flex-col gap-y-2">
+    <Card className="w-full p-4 flex flex-col gap-y-2">
       <CardTitle>{campaign}</CardTitle>
       <CardDescription>
         <Link
