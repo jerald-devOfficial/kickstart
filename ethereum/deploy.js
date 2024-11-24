@@ -1,10 +1,12 @@
-import dotenv from "dotenv";
-import HDWalletProvider from "@truffle/hdwallet-provider";
-import Web3 from "web3";
-import compiledFactory from "./build/CampaignFactory.json";
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const Web3 = require('web3').default;
+const compiledFactory = require('./build/CampaignFactory.json');
 
+// showing this but not actually working
+const dotenv = require('dotenv');
 dotenv.config({ path: ".env.local" });
 
+// unfortunatley, this is not working if you use .env variables, so please use the hardcoded values below
 const provider = new HDWalletProvider(
   process.env.METAMAST_MNEMONIC,
   `https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}`
