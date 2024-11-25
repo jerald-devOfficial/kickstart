@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import Campaign from "@/campaign";
-import CampaignDetails from "@/components/CampaignDetails";
-import web3 from "web3";
-import ContributeForm from "@/components/ContributeForm";
+import Campaign from "@/campaign"
+import CampaignDetails from "@/components/CampaignDetails"
+import ContributeForm from "@/components/ContributeForm"
+import PropTypes from "prop-types"
+import web3 from "web3"
 
 const CampaignShow = async ({ params }) => {
   const { campaign } = await params;
@@ -60,7 +60,7 @@ const CampaignShow = async ({ params }) => {
             <CampaignDetails key={detail.meta} {...detail} />
           ))}
         </div>
-        <ContributeForm />
+        <ContributeForm campaign={campaign} />
       </div>
     </main>
   );

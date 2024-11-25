@@ -1,10 +1,7 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useRouter } from "next/navigation";
-import { useReducer } from "react";
-import { Button } from "@/components/ui/button";
+import Campaign from "@/campaign"
+import Message from "@/components/Message"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -12,18 +9,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import web3 from "@/web3";
-import { useMutation } from "@tanstack/react-query";
-import Message from "./Message";
-import { Loader2 } from "lucide-react";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import web3 from "@/web3"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
+import { Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useReducer } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 const formSchema = z.object({
-  value: z.string().min(1),
+  value: z.number().min(1, "Value must be a positive number"),
 });
 
-const ContributeForm = () => {
+const ContributeForm =  ({campaign}) => {
   const { push } = useRouter();
   const reducer = (state, action) => ({ ...state, ...action });
   const initialState = {
@@ -40,7 +41,7 @@ const ContributeForm = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      value: "100",
+      value: 100,
     },
   });
 
@@ -48,14 +49,15 @@ const ContributeForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
       dispatch({ buttonText: "Sending...", error: null, success: null });
+      const currentCampaign = Campaign(campaign)
       const accounts = await web3.eth.getAccounts();
-      await campaign.methods.contribute().send({
+      return currentCampaign.methods.contribute().send({
         from: accounts[0],
         value: web3.utils.toWei(data.value, "ether"),
       });
     },
-    onSuccess: ({ message }) => {
-      dispatch({ buttonText: "Sent!", success: message });
+    onSuccess: () => {
+      dispatch({ buttonText: "Sent!", success: 'Successfully sent ether to the campaign.' });
       push("/");
     },
     onError: ({ message }) => {
@@ -78,6 +80,7 @@ const ContributeForm = () => {
               <div className="flex items-center w-full">
                 <FormControl>
                   <Input
+                    type="number"
                     placeholder="100"
                     {...field}
                     className="rounded-r-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-blue-200"
