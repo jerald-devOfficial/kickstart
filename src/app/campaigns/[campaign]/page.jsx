@@ -57,7 +57,7 @@ const CampaignShow = async ({ params }) => {
       <div className="grid grid-cols-5 gap-x-4">
         <div className="col-span-4 grid grid-cols-2 gap-4 w-full">
           {campaignDetails.map((detail) => (
-            <CampaignDetails key={detail.meta} {...detail} />
+            <CampaignDetails campaign={campaign} key={detail.meta} {...detail} />
           ))}
         </div>
         <ContributeForm campaign={campaign} />
