@@ -1,3 +1,4 @@
+import CreateRequestForm from '@/components/CreateRequestForm'
 import PropTypes from 'prop-types'
 
 const CreateRequest = async ({ params }) => {
@@ -5,7 +6,7 @@ const CreateRequest = async ({ params }) => {
   return (
     <main className='flex flex-col gap-y-5'>
       <h3 className='text-xl font-bold ml-6'>Create a Request</h3>
-      {campaign}
+      <CreateRequestForm campaign={campaign} />
     </main>
   )
 }
