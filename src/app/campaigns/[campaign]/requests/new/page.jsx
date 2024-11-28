@@ -5,7 +5,7 @@ const CreateRequest = async ({ params }) => {
   const { campaign } = await params
   return (
     <main className='flex flex-col gap-y-5'>
-      <h3 className='text-xl font-bold ml-6'>Create a Request</h3>
+      <h3 className='text-xl font-bold'>Create a Request</h3>
       <CreateRequestForm campaign={campaign} />
     </main>
   )
