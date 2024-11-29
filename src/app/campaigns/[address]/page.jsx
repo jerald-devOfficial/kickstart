@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 import web3 from 'web3'
 
 const CampaignShow = async ({ params }) => {
-  const { campaign } = await params
+  const { address } = await params
 
-  const campaignInstance = Campaign(campaign)
+  const campaignInstance = Campaign(address)
   const summary = await campaignInstance.methods.getSummary().call()
 
   const formattedSummary = {
@@ -61,12 +61,12 @@ const CampaignShow = async ({ params }) => {
           ))}
         </div>
 
-        <ContributeForm campaign={campaign} />
+        <ContributeForm campaign={address} />
       </div>
       <div className='block'>
         <Link
           className='bg-blue-500 text-white px-4 py-2 rounded-md font-semibold'
-          href={`/campaigns/${campaign}/requests`}
+          href={`/campaigns/${address}/requests`}
         >
           View Requests
         </Link>
@@ -79,6 +79,6 @@ export default CampaignShow
 
 CampaignShow.propTypes = {
   params: PropTypes.shape({
-    campaign: PropTypes.string.isRequired
+    address: PropTypes.string.isRequired
   }).isRequired
 }

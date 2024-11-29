@@ -1,25 +1,25 @@
-import PropTypes from "prop-types";
-import Link from "next/link";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from '@/components/ui/card'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
-const Campaigns = ({ campaign }) => {
+const Campaigns = ({ address }) => {
   return (
-    <Card className="w-full p-4 flex flex-col gap-y-2">
-      <CardTitle>{campaign}</CardTitle>
+    <Card className='w-full p-4 flex flex-col gap-y-2'>
+      <CardTitle>{address}</CardTitle>
       <CardDescription>
         <Link
-          href={`/campaigns/${campaign}`}
-          className="text-blue-500 font-semibold"
+          href={`/campaigns/${address}`}
+          className='text-blue-500 font-semibold'
         >
           View Campaign
         </Link>
       </CardDescription>
     </Card>
-  );
-};
+  )
+}
 
 Campaigns.propTypes = {
-  campaign: PropTypes.string.isRequired,
-};
+  address: PropTypes.string.isRequired
+}
 
-export default Campaigns;
+export default Campaigns

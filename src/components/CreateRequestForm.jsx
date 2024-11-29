@@ -32,7 +32,7 @@ const formSchema = z.object({
   recipient: z.string().min(1, 'Recipient is required')
 })
 
-const CreateRequestForm = ({ campaign }) => {
+const CreateRequestForm = ({ address }) => {
   const { push } = useRouter()
   const reducer = (state, action) => ({ ...state, ...action })
   const initialState = {
@@ -59,7 +59,7 @@ const CreateRequestForm = ({ campaign }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
       dispatch({ buttonText: 'Creating...', error: null, success: null })
-      const currentCampaign = Campaign(campaign)
+      const currentCampaign = Campaign(address)
       const accounts = await web3.eth.getAccounts()
       return currentCampaign.methods
         .createRequest(
@@ -160,7 +160,7 @@ const CreateRequestForm = ({ campaign }) => {
 }
 
 CreateRequestForm.propTypes = {
-  campaign: PropTypes.string.isRequired
+  address: PropTypes.string.isRequired
 }
 
 export default CreateRequestForm

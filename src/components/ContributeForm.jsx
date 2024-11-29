@@ -25,7 +25,7 @@ const formSchema = z.object({
   value: z.number().min(1, 'Value must be a positive number')
 })
 
-const ContributeForm = ({ campaign }) => {
+const ContributeForm = ({ address }) => {
   const { push } = useRouter()
   const reducer = (state, action) => ({ ...state, ...action })
   const initialState = {
@@ -50,7 +50,7 @@ const ContributeForm = ({ campaign }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (data) => {
       dispatch({ buttonText: 'Sending...', error: null, success: null })
-      const currentCampaign = Campaign(campaign)
+      const currentCampaign = Campaign(address)
       const accounts = await web3.eth.getAccounts()
       return currentCampaign.methods.contribute().send({
         from: accounts[0],
@@ -110,7 +110,7 @@ const ContributeForm = ({ campaign }) => {
 }
 
 ContributeForm.propTypes = {
-  campaign: PropTypes.object.isRequired
+  address: PropTypes.string.isRequired
 }
 
 export default ContributeForm
