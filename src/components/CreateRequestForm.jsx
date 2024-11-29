@@ -24,7 +24,11 @@ import { z } from 'zod'
 
 const formSchema = z.object({
   description: z.string().min(1, 'Description is required'),
-  value: z.number().min(1, 'Value is required'),
+  value: z
+    .string()
+    .refine((val) => /^\d*\.?\d+$/.test(val) && parseFloat(val) > 0, {
+      message: 'Value must be a positive number'
+    }),
   recipient: z.string().min(1, 'Recipient is required')
 })
 
@@ -46,7 +50,7 @@ const CreateRequestForm = ({ campaign }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       description: '',
-      value: 0,
+      value: '0',
       recipient: ''
     }
   })
