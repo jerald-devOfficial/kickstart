@@ -36,7 +36,9 @@ const RequestPage = async ({ params }) => {
     <main className='flex flex-col gap-y-5'>
       <h3 className='text-xl font-bold ml-6'>Requests</h3>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>
+          A list of requests for this campaign {address}.
+        </TableCaption>
         <TableHeader>
           <TableRow className='bg-gray-100 rounded-2xl border-gray-300 border'>
             {columns.map((column) => (
