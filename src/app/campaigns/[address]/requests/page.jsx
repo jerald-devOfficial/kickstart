@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import web3 from '@/web3'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -51,7 +52,9 @@ const RequestPage = async ({ params }) => {
             <TableRow key={request.id}>
               <TableCell>{index}</TableCell>
               <TableCell>{request.description}</TableCell>
-              <TableCell>{request.value.toString()}</TableCell>
+              <TableCell>
+                {web3.utils.fromWei(request.value, 'ether')}
+              </TableCell>
               <TableCell>{request.recipient}</TableCell>
               <TableCell>{request.approvalCount}</TableCell>
               <TableCell>{request.approve}</TableCell>
