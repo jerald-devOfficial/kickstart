@@ -49,7 +49,7 @@ const RequestPage = async ({ params }) => {
         <TableBody>
           {requests.map((request, index) => (
             <TableRow key={request.id}>
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{index}</TableCell>
               <TableCell>{request.description}</TableCell>
               <TableCell>{request.value.toString()}</TableCell>
               <TableCell>{request.recipient}</TableCell>
