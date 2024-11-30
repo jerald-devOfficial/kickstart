@@ -1,14 +1,13 @@
 import Campaign from '@/campaign'
+import TableRequestRow from '@/components/TableRequestRow'
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import web3 from '@/web3'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -26,6 +25,7 @@ const RequestPage = async ({ params }) => {
   const { address } = await params
   const campaignInstance = Campaign(address)
   const requestCount = await campaignInstance.methods.getRequestsCount().call()
+  const approversCount = await campaignInstance.methods.approversCount().call()
 
   const requests = await Promise.all(
     Array(parseInt(requestCount))
@@ -49,17 +49,13 @@ const RequestPage = async ({ params }) => {
         </TableHeader>
         <TableBody>
           {requests.map((request, index) => (
-            <TableRow key={request.id}>
-              <TableCell>{index}</TableCell>
-              <TableCell>{request.description}</TableCell>
-              <TableCell>
-                {web3.utils.fromWei(request.value, 'ether')}
-              </TableCell>
-              <TableCell>{request.recipient}</TableCell>
-              <TableCell>{request.approvalCount}</TableCell>
-              <TableCell>{request.approve}</TableCell>
-              <TableCell>{request.finalize}</TableCell>
-            </TableRow>
+            <TableRequestRow
+              key={request.id}
+              request={request}
+              index={index}
+              approversCount={approversCount}
+              address={address}
+            />
           ))}
         </TableBody>
       </Table>
