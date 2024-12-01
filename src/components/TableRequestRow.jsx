@@ -11,7 +11,8 @@ import { useState } from 'react'
 const TableRequestRow = ({ request, index, approversCount, address }) => {
   const [approveLoading, setApproveLoading] = useState(false)
   const [finalizeLoading, setFinalizeLoading] = useState(false)
-  const readyToFinalize = request.approvalCount > approversCount / 2
+
+  const readyToFinalize = request.approvalCount > approversCount / BigInt(2)
 
   const handleApprove = async () => {
     setApproveLoading(true)
@@ -36,7 +37,7 @@ const TableRequestRow = ({ request, index, approversCount, address }) => {
     <TableRow
       key={index}
       disabled={request.complete}
-      active={readyToFinalize && !request.complete}
+      positive={readyToFinalize && !request.complete}
     >
       <TableCell>{index}</TableCell>
       <TableCell>{request.description}</TableCell>
