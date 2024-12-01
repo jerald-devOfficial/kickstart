@@ -36,10 +36,16 @@ const RequestPage = async ({ params }) => {
   return (
     <main className='flex flex-col gap-y-5'>
       <h3 className='text-xl font-bold ml-6'>Requests</h3>
+      <div className='flex justify-end'>
+        <Link
+          className='bg-blue-500 text-white px-4 py-2 rounded-md font-medium'
+          href={`/campaigns/${address}/requests/new`}
+        >
+          Add Request
+        </Link>
+      </div>
       <Table>
-        <TableCaption>
-          A list of requests for this campaign {address}.
-        </TableCaption>
+        <TableCaption>Found {requestCount} requests.</TableCaption>
         <TableHeader>
           <TableRow className='bg-gray-100 rounded-2xl border-gray-300 border'>
             {columns.map((column) => (
@@ -59,14 +65,6 @@ const RequestPage = async ({ params }) => {
           ))}
         </TableBody>
       </Table>
-      <div className='block'>
-        <Link
-          className='bg-blue-500 text-white px-4 py-2 rounded-md font-semibold'
-          href={`/campaigns/${address}/requests/new`}
-        >
-          Create a Request
-        </Link>
-      </div>
     </main>
   )
 }
